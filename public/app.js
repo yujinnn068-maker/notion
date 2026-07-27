@@ -96,7 +96,7 @@ function createBookCard(book) {
       }
 
       article.dataset.state = data.status;
-      cardState.textContent = data.status === 'duplicate' ? '이미 등록됨' : '등록 완료';
+      cardState.textContent = data.status === 'duplicate' ? '이미\n등록됨' : '등록 완료';
       showToast(
         data.status === 'duplicate'
           ? `${data.title}은 이미 등록되어 있습니다.`
