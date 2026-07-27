@@ -8,6 +8,7 @@ const {
   cleanText,
   normalizeAuthor,
   normalizeExternalUrl,
+  normalizeTitle,
 } = require('./lib/book-utils');
 
 const ROOT = __dirname;
@@ -214,7 +215,7 @@ async function aladinLookup(book) {
 function normalizeSearchItems(items) {
   return items.map((item) => {
     return {
-      title: cleanText(item.title),
+      title: normalizeTitle(item.title),
       author: normalizeAuthor(item.author),
       publisher: cleanText(item.publisher),
       categoryName: cleanText(item.categoryName),

@@ -12,6 +12,7 @@ const {
   normalizeAuthor,
   normalizeExternalUrl,
   normalizeGenre,
+  normalizeTitle,
   truncateText,
 } = require('../lib/book-utils');
 
@@ -44,6 +45,13 @@ test('normalizeExternalUrl decodes Aladin HTML entities', () => {
     ),
     'https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=260084&partner=openAPI',
   );
+});
+
+test('normalizeTitle removes subtitles and keeps hyphens inside words', () => {
+  assert.equal(normalizeTitle('데미안 - 어느 청춘의 이야기'), '데미안');
+  assert.equal(normalizeTitle('데미안: 어느 청춘의 이야기'), '데미안');
+  assert.equal(normalizeTitle('데미안 (초판본)'), '데미안');
+  assert.equal(normalizeTitle('K-팝의 역사'), 'K-팝의 역사');
 });
 
 test('normalizeGenre maps Aladin paths to the fixed Reading DB taxonomy', () => {

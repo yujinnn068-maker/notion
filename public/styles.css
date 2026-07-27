@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background: var(--canvas);
-  font-size: 8px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -50,13 +50,13 @@ a {
 }
 
 .search-header {
-  padding: 72px 0 48px;
+  padding: 36px 0 20px;
 }
 
 .search-form {
   width: 100%;
-  height: 48px;
-  padding: 6px;
+  height: 38px;
+  padding: 3px 6px;
   display: flex;
   gap: 8px;
   border: 1px solid transparent;
@@ -80,7 +80,7 @@ a {
   outline: 0;
   color: var(--ink);
   background: transparent;
-  font-size: 7px;
+  font-size: 14px;
 }
 
 .search-form input::placeholder {
@@ -89,13 +89,13 @@ a {
 
 .search-form button {
   min-width: 76px;
-  padding: 8px 20px;
+  padding: 4px 20px;
   border: 0;
   border-radius: var(--radius-full);
   cursor: pointer;
   color: var(--canvas);
   background: var(--primary);
-  font-size: 7px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1;
 }
@@ -112,11 +112,11 @@ a {
 }
 
 .results-section {
-  padding: 24px 0 48px;
+  padding: 12px 0 24px;
 }
 
 .results-heading {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -128,7 +128,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.33;
 }
@@ -136,13 +136,13 @@ h2 {
 .result-count {
   margin: 0;
   color: var(--body);
-  font-size: 6px;
+  font-size: 12px;
   line-height: 1.33;
 }
 
 .state-panel {
-  min-height: 240px;
-  padding: 32px;
+  min-height: 120px;
+  padding: 16px 32px;
   display: grid;
   place-content: center;
   text-align: center;
@@ -166,7 +166,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 500;
   line-height: 1.2;
 }
@@ -174,12 +174,12 @@ h2 {
 .book-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 12px;
+  gap: 6px;
 }
 
 .book-card {
   min-width: 0;
-  padding: 16px;
+  padding: 8px 16px;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-card);
   background: var(--canvas);
@@ -204,9 +204,9 @@ h2 {
 .cover-wrap {
   position: relative;
   width: 88px;
+  height: 72px;
   grid-column: 1;
   grid-row: 1 / span 2;
-  aspect-ratio: 0.7;
   overflow: hidden;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-card);
@@ -227,7 +227,7 @@ h2 {
   place-content: center;
   text-align: center;
   color: var(--body);
-  font-size: 6px;
+  font-size: 12px;
   line-height: 1.33;
 }
 
@@ -240,7 +240,7 @@ h2 {
   text-align: center;
   color: #ffffff;
   background: rgb(23 23 23 / 92%);
-  font-size: 6px;
+  font-size: 12px;
   font-weight: 500;
   opacity: 0;
   transition: opacity 120ms ease;
@@ -264,7 +264,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 9px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1.56;
   text-overflow: ellipsis;
@@ -278,7 +278,7 @@ h2 {
   margin: 0;
   overflow: hidden;
   color: var(--body);
-  font-size: 7px;
+  font-size: 14px;
   line-height: 1.43;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -299,7 +299,7 @@ h2 {
   color: #ffffff;
   border-radius: var(--radius-full);
   background: var(--surface-dark);
-  font-size: 7px;
+  font-size: 14px;
   line-height: 1.43;
   animation: toast-in 160ms ease both;
 }
@@ -335,12 +335,12 @@ h2 {
   }
 
   .search-header {
-    padding: 48px 0 32px;
+    padding: 24px 0 16px;
   }
 
   .search-form {
-    height: 44px;
-    padding: 4px;
+    height: 36px;
+    padding: 3px 4px;
   }
 
   .search-form button {
@@ -349,15 +349,15 @@ h2 {
   }
 
   .results-section {
-    padding-top: 16px;
+    padding-top: 8px;
   }
 
   h2 {
-    font-size: 10px;
+    font-size: 20px;
   }
 
   .book-card {
-    padding: 12px;
+    padding: 8px 12px;
   }
 
   .book-select {
@@ -367,10 +367,11 @@ h2 {
 
   .cover-wrap {
     width: 68px;
+    height: 68px;
   }
 
   .book-title {
-    font-size: 8px;
+    font-size: 16px;
     line-height: 1.5;
   }
 }
