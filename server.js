@@ -290,6 +290,10 @@ async function importBook(book, iconUrl = '') {
   const pagePayload = {
     parent: { data_source_id: dataSourceId },
     properties,
+    template: {
+      type: 'default',
+      timezone: 'Asia/Seoul',
+    },
   };
   if (iconUrl.startsWith('https://')) {
     pagePayload.icon = {
