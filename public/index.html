@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="알라딘에서 책을 검색해 Notion Reading DB에 추가합니다." />
+    <title>Reading DB Importer</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="search-header">
+        <form class="search-form" id="search-form" role="search">
+          <label class="sr-only" for="query">책 제목</label>
+          <input
+            id="query"
+            name="query"
+            type="search"
+            maxlength="100"
+            placeholder="책 제목을 입력하세요"
+            autocomplete="off"
+            required
+          />
+          <button type="submit">검색</button>
+        </form>
+      </header>
+
+      <section class="results-section" aria-labelledby="results-heading">
+        <div class="results-heading">
+          <h2 id="results-heading">검색 결과</h2>
+          <p class="result-count" id="result-count" aria-live="polite"></p>
+        </div>
+
+        <div class="state-panel" id="state-panel">
+          <div class="empty-mark" aria-hidden="true">⌕</div>
+          <p>검색할 책 제목을 입력해 주세요.</p>
+        </div>
+
+        <div class="book-grid" id="book-grid" aria-live="polite"></div>
+      </section>
+
+      <footer>
+        <span>도서 DB 제공: 알라딘 인터넷서점</span>
+        <span>개인용 로컬 도구</span>
+      </footer>
+    </main>
+
+    <div class="toast-region" id="toast-region" aria-live="assertive"></div>
+  </body>
+</html>
