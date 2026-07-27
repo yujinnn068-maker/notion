@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background: var(--canvas);
-  font-size: 16px;
+  font-size: 8px;
   line-height: 1.5;
 }
 
@@ -80,7 +80,7 @@ a {
   outline: 0;
   color: var(--ink);
   background: transparent;
-  font-size: 14px;
+  font-size: 7px;
 }
 
 .search-form input::placeholder {
@@ -95,7 +95,7 @@ a {
   cursor: pointer;
   color: var(--canvas);
   background: var(--primary);
-  font-size: 14px;
+  font-size: 7px;
   font-weight: 500;
   line-height: 1;
 }
@@ -128,7 +128,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 24px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.33;
 }
@@ -136,7 +136,7 @@ h2 {
 .result-count {
   margin: 0;
   color: var(--body);
-  font-size: 12px;
+  font-size: 6px;
   line-height: 1.33;
 }
 
@@ -166,7 +166,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 30px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.2;
 }
@@ -227,7 +227,7 @@ h2 {
   place-content: center;
   text-align: center;
   color: var(--body);
-  font-size: 12px;
+  font-size: 6px;
   line-height: 1.33;
 }
 
@@ -240,7 +240,7 @@ h2 {
   text-align: center;
   color: #ffffff;
   background: rgb(23 23 23 / 92%);
-  font-size: 12px;
+  font-size: 6px;
   font-weight: 500;
   opacity: 0;
   transition: opacity 120ms ease;
@@ -264,7 +264,7 @@ h2 {
   font-family:
     "SF Pro Rounded", ui-rounded, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  font-size: 18px;
+  font-size: 9px;
   font-weight: 500;
   line-height: 1.56;
   text-overflow: ellipsis;
@@ -278,7 +278,7 @@ h2 {
   margin: 0;
   overflow: hidden;
   color: var(--body);
-  font-size: 14px;
+  font-size: 7px;
   line-height: 1.43;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -299,7 +299,7 @@ h2 {
   color: #ffffff;
   border-radius: var(--radius-full);
   background: var(--surface-dark);
-  font-size: 14px;
+  font-size: 7px;
   line-height: 1.43;
   animation: toast-in 160ms ease both;
 }
@@ -353,7 +353,7 @@ h2 {
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 10px;
   }
 
   .book-card {
@@ -370,7 +370,7 @@ h2 {
   }
 
   .book-title {
-    font-size: 16px;
+    font-size: 8px;
     line-height: 1.5;
   }
 }

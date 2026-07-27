@@ -267,7 +267,7 @@ async function importBook(book, iconUrl = '') {
   const duplicate = await notionRequest(`/v1/data_sources/${dataSourceId}/query`, {
     method: 'POST',
     body: JSON.stringify({
-      page_size: 1,
+      page_size: 100,
       filter: {
         property: 'URL',
         url: { equals: normalizedUrl },
@@ -275,10 +275,13 @@ async function importBook(book, iconUrl = '') {
     }),
   });
 
-  if (duplicate.results?.length) {
+  const activeDuplicate = duplicate.results?.find(
+    (page) => !page.archived && !page.in_trash,
+  );
+  if (activeDuplicate) {
     return {
       status: 'duplicate',
-      notionUrl: duplicate.results[0].url,
+      notionUrl: activeDuplicate.url,
       title: properties.Title.title[0].text.content,
     };
   }
