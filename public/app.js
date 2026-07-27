@@ -79,7 +79,7 @@ function createBookCard(book) {
     if (article.dataset.state !== 'idle') return;
     article.dataset.state = 'loading';
     button.disabled = true;
-    cardState.textContent = '등록 중…';
+    cardState.textContent = '등록중';
 
     try {
       const response = await fetch('/api/import', {
