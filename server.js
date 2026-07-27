@@ -260,7 +260,7 @@ async function notionRequest(endpoint, options = {}) {
   return data;
 }
 
-async function importBook(book, iconUrl = '') {
+async function importBook(book) {
   const dataSourceId = requireConfig('NOTION_DATA_SOURCE_ID');
   const properties = buildNotionProperties(book);
   const normalizedUrl = properties.URL.url;
@@ -295,13 +295,6 @@ async function importBook(book, iconUrl = '') {
       timezone: 'Asia/Seoul',
     },
   };
-  if (iconUrl.startsWith('https://')) {
-    pagePayload.icon = {
-      type: 'external',
-      external: { url: iconUrl },
-    };
-  }
-
   const created = await notionRequest('/v1/pages', {
     method: 'POST',
     body: JSON.stringify(pagePayload),
@@ -346,12 +339,7 @@ async function handleApi(request, response, url) {
     }
 
     const detailedBook = await aladinLookup({ isbn13, itemId });
-    const forwardedProtocol = String(request.headers['x-forwarded-proto'] || '')
-      .split(',')[0]
-      .trim();
-    const protocol = forwardedProtocol || url.protocol.replace(':', '');
-    const iconUrl = `${protocol}://${request.headers.host}/book2.png`;
-    const result = await importBook(detailedBook, iconUrl);
+    const result = await importBook(detailedBook);
     jsonResponse(response, 200, result);
     return true;
   }
@@ -362,7 +350,6 @@ async function handleApi(request, response, url) {
 const staticFiles = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
-  ['/book2.png', ['book2.png', 'image/png']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
 ]);
 

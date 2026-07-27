@@ -8,7 +8,7 @@ process.env.NOTION_DATA_SOURCE_ID = 'test-data-source';
 
 const { importBook } = require('../server');
 
-test('importBook applies the default Notion template and keeps the custom icon', async () => {
+test('importBook applies the default Notion template without overriding its icon', async () => {
   const originalFetch = global.fetch;
   const requests = [];
 
@@ -24,17 +24,14 @@ test('importBook applies the default Notion template and keeps the custom icon',
   };
 
   try {
-    const result = await importBook(
-      {
-        title: '테스트 책',
-        author: '테스트 저자',
-        publisher: '테스트 출판사',
-        categoryName: '국내도서>소설',
-        description: '',
-        link: 'https://example.com/book',
-      },
-      'https://example.vercel.app/book2.png',
-    );
+    const result = await importBook({
+      title: '테스트 책',
+      author: '테스트 저자',
+      publisher: '테스트 출판사',
+      categoryName: '국내도서>소설',
+      description: '',
+      link: 'https://example.com/book',
+    });
 
     const createRequest = requests.find((request) =>
       request.url.endsWith('/v1/pages'),
@@ -46,10 +43,7 @@ test('importBook applies the default Notion template and keeps the custom icon',
       type: 'default',
       timezone: 'Asia/Seoul',
     });
-    assert.deepEqual(body.icon, {
-      type: 'external',
-      external: { url: 'https://example.vercel.app/book2.png' },
-    });
+    assert.equal(body.icon, undefined);
     assert.equal(body.properties.Title.title[0].text.content, '테스트 책');
   } finally {
     global.fetch = originalFetch;
