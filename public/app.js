@@ -85,7 +85,10 @@ function createBookCard(book) {
       const response = await fetch('/api/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ selectionId: book.selectionId }),
+        body: JSON.stringify({
+          isbn13: book.isbn13,
+          itemId: book.itemId,
+        }),
       });
       const data = await response.json();
       if (!response.ok) {

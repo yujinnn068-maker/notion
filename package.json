@@ -2,7 +2,7 @@
   "name": "reading-db-importer",
   "version": "1.0.0",
   "private": true,
-  "description": "Local Aladin book search and Notion importer",
+  "description": "Aladin book search and Notion importer for local use and Vercel",
   "scripts": {
     "start": "node server.js",
     "test": "node --test"

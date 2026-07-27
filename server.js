@@ -1,6 +1,5 @@
 'use strict';
 
-const crypto = require('node:crypto');
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
@@ -17,8 +16,6 @@ const HOST = '127.0.0.1';
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const NOTION_VERSION = '2026-03-11';
 const SEARCH_PAGE_SIZE = 20;
-const SEARCH_CACHE_TTL_MS = 30 * 60 * 1000;
-const searchCache = new Map();
 
 class PublicError extends Error {
   constructor(status, code, message, details = undefined) {
@@ -214,32 +211,19 @@ async function aladinLookup(book) {
   };
 }
 
-function cleanupSearchCache() {
-  const oldestAllowed = Date.now() - SEARCH_CACHE_TTL_MS;
-  for (const [key, entry] of searchCache) {
-    if (entry.createdAt < oldestAllowed) {
-      searchCache.delete(key);
-    }
-  }
-}
-
-function cacheSearchItems(items) {
-  cleanupSearchCache();
+function normalizeSearchItems(items) {
   return items.map((item) => {
-    const selectionId = crypto.randomUUID();
-    const book = {
+    return {
       title: cleanText(item.title),
       author: normalizeAuthor(item.author),
       publisher: cleanText(item.publisher),
-      categoryName: cleanText(item.categoryName) || '미분류',
+      categoryName: cleanText(item.categoryName),
       description: item.description || '',
       link: normalizeExternalUrl(item.link),
       cover: String(item.cover || '').trim(),
       isbn13: String(item.isbn13 || '').trim(),
       itemId: String(item.itemId || '').trim(),
     };
-    searchCache.set(selectionId, { book, createdAt: Date.now() });
-    return { selectionId, ...book };
   });
 }
 
@@ -322,7 +306,7 @@ async function handleApi(request, response, url) {
       throw new PublicError(400, 'invalid_query', 'Enter a title between 1 and 100 characters.');
     }
     const data = await aladinSearch(query, page);
-    const items = cacheSearchItems(Array.isArray(data.item) ? data.item : []);
+    const items = normalizeSearchItems(Array.isArray(data.item) ? data.item : []);
     jsonResponse(response, 200, {
       query,
       page,
@@ -335,18 +319,17 @@ async function handleApi(request, response, url) {
 
   if (request.method === 'POST' && url.pathname === '/api/import') {
     const body = await readJsonBody(request);
-    const selectionId = String(body.selectionId || '');
-    const cached = searchCache.get(selectionId);
-    if (!cached || cached.createdAt < Date.now() - SEARCH_CACHE_TTL_MS) {
-      searchCache.delete(selectionId);
+    const isbn13 = String(body.isbn13 || '').trim();
+    const itemId = String(body.itemId || '').trim();
+    if (!isbn13 && !itemId) {
       throw new PublicError(
-        410,
-        'selection_expired',
-        'This search result expired. Search again and retry.',
+        400,
+        'invalid_book_id',
+        'The selected book does not have an Aladin identifier.',
       );
     }
 
-    const detailedBook = await aladinLookup(cached.book);
+    const detailedBook = await aladinLookup({ isbn13, itemId });
     const result = await importBook(detailedBook);
     jsonResponse(response, 200, result);
     return true;
@@ -377,7 +360,7 @@ function serveStatic(response, pathname) {
   return true;
 }
 
-const server = http.createServer(async (request, response) => {
+async function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host || `${HOST}:${PORT}`}`);
 
   try {
@@ -402,7 +385,9 @@ const server = http.createServer(async (request, response) => {
     }
     jsonResponse(response, status, { error: { code, message, details: error.details } });
   }
-});
+}
+
+const server = http.createServer(handleRequest);
 
 if (require.main === module) {
   server.listen(PORT, HOST, () => {
@@ -414,7 +399,9 @@ module.exports = {
   PublicError,
   aladinLookup,
   aladinSearch,
+  handleRequest,
   importBook,
   loadDotEnv,
+  normalizeSearchItems,
   server,
 };
