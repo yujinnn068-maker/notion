@@ -15,7 +15,7 @@ const PUBLIC_DIR = path.join(ROOT, 'public');
 const HOST = '127.0.0.1';
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const NOTION_VERSION = '2026-03-11';
-const SEARCH_PAGE_SIZE = 20;
+const SEARCH_PAGE_SIZE = 5;
 
 class PublicError extends Error {
   constructor(status, code, message, details = undefined) {
@@ -259,7 +259,7 @@ async function notionRequest(endpoint, options = {}) {
   return data;
 }
 
-async function importBook(book) {
+async function importBook(book, iconUrl = '') {
   const dataSourceId = requireConfig('NOTION_DATA_SOURCE_ID');
   const properties = buildNotionProperties(book);
   const normalizedUrl = properties.URL.url;
@@ -283,12 +283,20 @@ async function importBook(book) {
     };
   }
 
+  const pagePayload = {
+    parent: { data_source_id: dataSourceId },
+    properties,
+  };
+  if (iconUrl.startsWith('https://')) {
+    pagePayload.icon = {
+      type: 'external',
+      external: { url: iconUrl },
+    };
+  }
+
   const created = await notionRequest('/v1/pages', {
     method: 'POST',
-    body: JSON.stringify({
-      parent: { data_source_id: dataSourceId },
-      properties,
-    }),
+    body: JSON.stringify(pagePayload),
   });
 
   return {
@@ -330,7 +338,12 @@ async function handleApi(request, response, url) {
     }
 
     const detailedBook = await aladinLookup({ isbn13, itemId });
-    const result = await importBook(detailedBook);
+    const forwardedProtocol = String(request.headers['x-forwarded-proto'] || '')
+      .split(',')[0]
+      .trim();
+    const protocol = forwardedProtocol || url.protocol.replace(':', '');
+    const iconUrl = `${protocol}://${request.headers.host}/book2.png`;
+    const result = await importBook(detailedBook, iconUrl);
     jsonResponse(response, 200, result);
     return true;
   }
@@ -341,6 +354,7 @@ async function handleApi(request, response, url) {
 const staticFiles = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+  ['/book2.png', ['book2.png', 'image/png']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
 ]);
 
