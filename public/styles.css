@@ -45,7 +45,7 @@ a {
 }
 
 .shell {
-  width: min(540px, calc(100% - 40px));
+  width: min(480px, calc(100% - 40px));
   margin: 0 auto;
 }
 
@@ -331,7 +331,7 @@ h2 {
 
 @media (max-width: 640px) {
   .shell {
-    width: min(100% - 24px, 540px);
+    width: min(100% - 24px, 480px);
   }
 
   .search-header {
